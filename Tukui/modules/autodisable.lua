@@ -2,16 +2,16 @@
 -- prevent action bar users config errors
 ------------------------------------------------------------------------
 
-if TukuiCF["actionbar"].bottomrows == 0 or TukuiCF["actionbar"].bottomrows > 2 then
+if TukuiCF["actionbar"].bottomrows == 0 or TukuiCF["actionbar"].bottomrows > 3 then
 	TukuiCF["actionbar"].bottomrows = 1
+end
+
+if TukuiCF["actionbar"].bottomrows == 3 and TukuiCF["actionbar"].rightbars > 2 then
+	TukuiCF["actionbar"].rightbars = 2
 end
 
 if TukuiCF["actionbar"].rightbars > 3 then
 	TukuiCF["actionbar"].rightbars = 3
-end
-
-if TukuiCF["actionbar"].bottomrows == 2 and TukuiCF["actionbar"].rightbars > 1 and not TukuiDB.lowversion then
-	TukuiCF["actionbar"].rightbars = 1
 end
 
 ------------------------------------------------------------------------
@@ -76,4 +76,8 @@ end
 -- auto-disable tooltip on unit frame if tooltip on cursor is enabled.
 if TukuiCF.tooltip.cursor and not TukuiCF.tooltip.hideuf then
 	TukuiCF.tooltip.hideuf = true
+end
+
+if TukuiCF["actionbar"].splitbar == true and TukuiCF["actionbar"].rightbars ~= 0 then
+	TukuiCF["actionbar"].rightbars = 0
 end

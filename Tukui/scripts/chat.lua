@@ -205,22 +205,24 @@ local function SetupChatPosAndFont(self)
 		-- doing resize of chat also here for users that hit "cancel" when default installation is show.
 		if i == 1 then
 			chat:ClearAllPoints()
-			chat:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", 0, TukuiDB.Scale(6))
+			chat:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB.Scale(2), TukuiDB.Scale(7))
+			chat:SetWidth(365)
 			FCF_SavePositionAndDimensions(chat)
-		elseif i == 4 and name == LOOT then
+		elseif i == 4 and name == "Loot" then
 			if not chat.isDocked then
 				chat:ClearAllPoints()
-				chat:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB.Scale(6))
-				chat:SetJustifyH("RIGHT") 
+				chat:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", TukuiDB.Scale(-2), TukuiDB.Scale(7))
+				chat:SetJustifyH("RIGHT")
+				chat:SetWidth(365)
 				FCF_SavePositionAndDimensions(chat)
 			end
 		end
 	end
-			
+ 
 	-- reposition battle.net popup over chat #1
 	BNToastFrame:HookScript("OnShow", function(self)
 		self:ClearAllPoints()
-		self:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, TukuiDB.Scale(5))
+		self:SetPoint("BOTTOMLEFT", TukuiChatBackgroundLeft, "TOPLEFT", 0, TukuiDB.Scale(5))
 	end)
 end
 

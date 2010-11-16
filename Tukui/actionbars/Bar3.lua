@@ -14,10 +14,12 @@ for i= 1, 12 do
 	b:SetSize(TukuiDB.buttonsize, TukuiDB.buttonsize)
 	b:ClearAllPoints()
 	if i == 1 then
-		if TukuiCF.actionbar.rightbars > 2 then
-			b:SetPoint("TOP", TukuiActionBarBackgroundRight, "TOP", 0, TukuiDB.Scale(-4))
+		if TukuiCF.actionbar.bottomrows == 3 then
+			b:SetPoint("TOPLEFT", TukuiActionBarBackground, "TOPLEFT", TukuiDB.buttonspacing, -TukuiDB.buttonspacing)
+		elseif TukuiCF.actionbar.rightbars > 2 then
+			b:SetPoint("TOP", TukuiActionBarBackgroundRight, "TOP", TukuiDB.buttonspacing, -TukuiDB.buttonspacing)
 		else
-			b:SetPoint("LEFT", MultiBarBottomRightButton12, "RIGHT", TukuiDB.Scale(4), 0)
+			b:SetPoint("TOP", UIParent, "BOTTOM", 0, TukuiDB.Scale(-20))
 		end
 	else
 		if TukuiCF.actionbar.rightbars > 2 then
@@ -29,14 +31,15 @@ for i= 1, 12 do
 end
 
 -- remove 4 buttons on high reso to fit bottom bar.
-if not TukuiDB.lowversion and TukuiCF.actionbar.bottomrows == 2 then
-	MultiBarLeftButton11:SetScale(0.0001) 
-	MultiBarLeftButton11:SetAlpha(0)
-	MultiBarLeftButton12:SetScale(0.0001)
-	MultiBarLeftButton12:SetAlpha(0)
-end
+--if not TukuiDB.lowversion and TukuiCF.actionbar.bottomrows == 2 then
+--	MultiBarLeftButton11:SetScale(0.0001) 
+--	MultiBarLeftButton11:SetAlpha(0)
+--	MultiBarLeftButton12:SetScale(0.0001)
+--	MultiBarLeftButton12:SetAlpha(0)
+--end
 
 -- hide it if needed
-if (TukuiDB.lowversion and TukuiCF.actionbar.rightbars < 3) or (not TukuiDB.lowversion and TukuiCF.actionbar.bottomrows == 1 and TukuiCF.actionbar.rightbars < 3) then
+if TukuiCF.actionbar.rightbars < 3 and TukuiCF.actionbar.bottomrows < 3 then
 	TukuiBar3:Hide()
 end
+

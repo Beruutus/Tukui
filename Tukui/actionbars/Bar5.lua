@@ -13,22 +13,26 @@ for i= 1, 12 do
 	local b2 = _G["MultiBarBottomRightButton"..i-1]
 	b:SetSize(TukuiDB.buttonsize, TukuiDB.buttonsize)
 	b:ClearAllPoints()
-	if i == 1 then
-		if TukuiCF.actionbar.rightbars > 1 then
-			b:SetPoint("TOPLEFT", TukuiActionBarBackgroundRight, "TOPLEFT", TukuiDB.Scale(4), TukuiDB.Scale(-4))
-		else
-			b:SetPoint("BOTTOM", ActionButton1, "TOP", 0, TukuiDB.Scale(4))
-		end
-	else
-		if TukuiCF.actionbar.rightbars > 1 then
-			b:SetPoint("TOP", b2, "BOTTOM", 0, -TukuiDB.buttonspacing)
+	if TukuiCF.actionbar.splitbar == true then
+		if i == 1 then
+			b:SetPoint("TOPLEFT", TukuiSplitBarRightBG, "TOPLEFT", TukuiDB.buttonspacing, -TukuiDB.buttonspacing)
+		elseif i == 5 then
+			b:SetPoint("TOP", _G["MultiBarBottomRightButton1"], "BOTTOM", 0, -TukuiDB.buttonspacing)
+		elseif i == 9 then
+			b:SetPoint("TOP", _G["MultiBarBottomRightButton5"], "BOTTOM", 0, -TukuiDB.buttonspacing)
 		else
 			b:SetPoint("LEFT", b2, "RIGHT", TukuiDB.buttonspacing, 0)
 		end
+	else
+		if i == 1 then
+			b:SetPoint("TOPLEFT", TukuiActionBarBackgroundRight, "TOPLEFT", TukuiDB.Scale(4), TukuiDB.Scale(-4))
+		else
+			b:SetPoint("TOP", b2, "BOTTOM", 0, -TukuiDB.buttonspacing)
+		end
 	end
 end
-
+ 
 -- hide it if needed
-if (TukuiDB.lowversion and TukuiCF.actionbar.rightbars < 2) or (TukuiCF.actionbar.bottomrows == 1 and TukuiCF.actionbar.rightbars < 2) then
+if TukuiCF.actionbar.rightbars < 2 and TukuiCF.actionbar.splitbar ~= true then
 	TukuiBar5:Hide()
 end
