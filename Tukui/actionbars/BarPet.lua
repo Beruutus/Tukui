@@ -4,7 +4,7 @@ if not TukuiCF["actionbar"].enable == true then return end
 -- setup PetActionBar
 ---------------------------------------------------------------------------
 
-local bar = CreateFrame("Frame", "TukuiPetBar", UIParent, "SecureHandlerStateTemplate")
+local bar = CreateFrame("Frame", "TukuiPetBar", TukuiActionBarBackground, "SecureHandlerStateTemplate")
 bar:ClearAllPoints()
 bar:SetAllPoints(TukuiPetActionBarBackground)
 	
@@ -35,15 +35,16 @@ bar:SetScript("OnEvent", function(self, event, ...)
 			TukuiPetActionBarBackground:SetFrameLevel(1)
 			button:SetSize(TukuiDB.petbuttonsize, TukuiDB.petbuttonsize)
 			if i == 1 then
-				button:SetPoint("TOPLEFT", TukuiDB.Scale(4),TukuiDB.Scale(-4))
+				button:SetPoint("LEFT", TukuiDB.Scale(4), 0)
 			else
-				button:SetPoint("TOP", _G["PetActionButton"..(i - 1)], "BOTTOM", 0, TukuiDB.Scale(-4))
+				button:SetPoint("LEFT", _G["PetActionButton"..(i - 1)], "RIGHT", TukuiDB.Scale(4), 0)
 			end
 			button:Show()
 			self:SetAttribute("addchild", button)
 		end
 		RegisterStateDriver(self, "visibility", "[pet,novehicleui,nobonusbar:5] show; hide")
 		hooksecurefunc("PetActionBar_Update", TukuiDB.TukuiPetBarUpdate)
+		PetActionButton_OnDragStart = TukuiDB.dummy
 	elseif event == "PET_BAR_UPDATE" or event == "UNIT_PET" and arg1 == "player" 
 	or event == "PLAYER_CONTROL_LOST" or event == "PLAYER_CONTROL_GAINED" or event == "PLAYER_FARSIGHT_FOCUS_CHANGED" or event == "UNIT_FLAGS"
 	or arg1 == "pet" and (event == "UNIT_AURA") then

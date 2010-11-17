@@ -35,10 +35,10 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(self, parent)
 			-- avoids flicker when mouseover unitframes with open bags
 			if TukuiCF["bags"].enable == true and StuffingFrameBags:IsShown() then
 				self:ClearAllPoints()
-				self:SetPoint("BOTTOMRIGHT", StuffingFrameBags, "TOPRIGHT", 0, TukuiDB.Scale(4))
+				self:SetPoint("BOTTOMLEFT", StuffingFrameBags, "TOPLEFT", 0, TukuiDB.Scale(4))
 			else
 				self:ClearAllPoints()
-				self:SetPoint("BOTTOMRIGHT", TukuiChatBackgroundRight, "TOPRIGHT", 0, TukuiDB.Scale(3))
+				self:SetPoint("BOTTOMLEFT", TukuiChatBackgroundRight, "TOPLEFT", 0, TukuiDB.Scale(3))
 			end
 		end
 	end
@@ -58,10 +58,10 @@ GameTooltip:HookScript("OnUpdate",function(self, ...)
 			-- moves tooltip when opening bags
 			if TukuiCF["bags"].enable == true and StuffingFrameBags:IsShown() then
 				self:ClearAllPoints()
-				self:SetPoint("BOTTOMRIGHT", StuffingFrameBags, "TOPRIGHT", 0, TukuiDB.Scale(4))
+				self:SetPoint("BOTTOMLEFT", StuffingFrameBags, "TOPLEFT", 0, TukuiDB.Scale(4))
 			else
 				self:ClearAllPoints()
-				self:SetPoint("BOTTOMRIGHT", TukuiChatBackgroundRight, "TOPRIGHT", 0, TukuiDB.Scale(3))
+				self:SetPoint("BOTTOMLEFT", TukuiChatBackgroundRight, "TOPLEFT", 0, TukuiDB.Scale(3))
 			end
 		end
 	end

@@ -6,7 +6,7 @@ if TukuiCF["chat"].enable ~= true then return end
 
 local TukuiChat = CreateFrame("Frame")
 local tabalpha = 1
-local tabnoalpha = 0
+local tabnoalpha = 1
 local _G = _G
 local origs = {}
 local type = type
@@ -59,11 +59,11 @@ local function SetChatStyle(frame)
 	tab.SetAlpha = UIFrameFadeRemoveFrame
 	
 	-- hide text when setting chat
-	_G[chat.."TabText"]:Hide()
+	_G[chat.."TabText"]:Show()
 	
 	-- now show text if mouse is found over tab.
 	tab:HookScript("OnEnter", function() _G[chat.."TabText"]:Show() end)
-	tab:HookScript("OnLeave", function() _G[chat.."TabText"]:Hide() end)
+	tab:HookScript("OnLeave", function() _G[chat.."TabText"]:Show() end)
 	
 	-- yeah baby
 	_G[chat]:SetClampRectInsets(0,0,0,0)
@@ -173,7 +173,10 @@ local function SetupChat(self)
 	for i = 1, NUM_CHAT_WINDOWS do
 		local frame = _G[format("ChatFrame%s", i)]
 		SetChatStyle(frame)
-		FCFTab_UpdateAlpha(frame)
+		FCFTab_UpdateColors(_G["ChatFrame"..i.."Tab"], false)
+		_G["ChatFrame"..i.."TabText"]:SetFont(TukuiCF["media"].font, 12)
+		_G["ChatFrame"..i]:SetFont(TukuiCF["media"].font, 12)
+
 	end
 				
 	-- Remember last channel
@@ -182,6 +185,7 @@ local function SetupChat(self)
 	ChatTypeInfo.OFFICER.sticky = 1
 	ChatTypeInfo.RAID_WARNING.sticky = 1
 	ChatTypeInfo.CHANNEL.sticky = 1
+
 end
 
 local function SetupChatPosAndFont(self)	
@@ -194,8 +198,8 @@ local function SetupChatPosAndFont(self)
 		local _, fontSize = FCF_GetChatWindowInfo(id)
 		
 		-- well... tukui font under fontsize 12 is unreadable.
-		if fontSize < 12 then		
-			FCF_SetChatWindowFontSize(nil, chat, 12)
+		if fontSize < 14 then		
+			FCF_SetChatWindowFontSize(nil, chat, 14)
 		else
 			FCF_SetChatWindowFontSize(nil, chat, fontSize)
 		end
@@ -205,24 +209,17 @@ local function SetupChatPosAndFont(self)
 		-- doing resize of chat also here for users that hit "cancel" when default installation is show.
 		if i == 1 then
 			chat:ClearAllPoints()
+			chat:SetFrameLevel(3)
 			chat:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB.Scale(2), TukuiDB.Scale(7))
 			chat:SetWidth(365)
 			FCF_SavePositionAndDimensions(chat)
-		elseif i == 4 and name == "Loot" then
-			if not chat.isDocked then
-				chat:ClearAllPoints()
-				chat:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", TukuiDB.Scale(-2), TukuiDB.Scale(7))
-				chat:SetJustifyH("RIGHT")
-				chat:SetWidth(365)
-				FCF_SavePositionAndDimensions(chat)
-			end
 		end
 	end
- 
+			
 	-- reposition battle.net popup over chat #1
 	BNToastFrame:HookScript("OnShow", function(self)
 		self:ClearAllPoints()
-		self:SetPoint("BOTTOMLEFT", TukuiChatBackgroundLeft, "TOPLEFT", 0, TukuiDB.Scale(5))
+		self:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", TukuiDB.Scale(-2), TukuiDB.Scale(29))
 	end)
 end
 
@@ -353,7 +350,7 @@ function TukuiDB.ChatCopyButtons()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local cf = _G[format("ChatFrame%d",  i)]
 		local button = CreateFrame("Button", format("ButtonCF%d", i), cf)
-		button:SetPoint("TOPRIGHT", 0, 0)
+		button:SetPoint("TOPRIGHT", -2, -2)
 		button:SetHeight(TukuiDB.Scale(20))
 		button:SetWidth(TukuiDB.Scale(20))
 		button:SetAlpha(0)
@@ -362,7 +359,7 @@ function TukuiDB.ChatCopyButtons()
 		local buttontext = button:CreateFontString(nil,"OVERLAY",nil)
 		buttontext:SetFont(TukuiCF.media.font,12,"OUTLINE")
 		buttontext:SetText("C")
-		buttontext:SetPoint("CENTER", TukuiDB.Scale(1), 0)
+		buttontext:SetPoint("CENTER")
 		buttontext:SetJustifyH("CENTER")
 		buttontext:SetJustifyV("CENTER")
 				
@@ -403,6 +400,15 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 	end
 end
 
+hooksecurefunc("FCFTab_UpdateColors", function(chatTab, isSelected)
+	chatTab:GetFontString():SetTextColor(1, 1, 1)
+	if ( chatTab.conversationIcon ) then
+		chatTab.conversationIcon:SetVertexColor(1, 1, 1) -- changes color of the b.net whisper window icon.
+	end
+	if isSelected then
+		FCFTab_UpdateColors(chatTab, false)
+	end
+end)
 ------------------------------------------------------------------------
 --	Play sound files system
 ------------------------------------------------------------------------
